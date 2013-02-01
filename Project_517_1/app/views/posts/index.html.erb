@@ -15,9 +15,10 @@
     <td><%= post.content %></td>
     <td><%= Category.find(post.category_id).name %></td>
     <td><%= User.find(post.user_id).username %></td>
-    <% if current_user && current_user.username == User.find(post.user_id).username %>
+    <% if (current_user && current_user.username == User.find(post.user_id).username) || (current_user && current_user.admin) %>
         <td><%= link_to 'Edit', edit_post_path(post) %></td>
         <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Vote', vote_path(post) %></td>
     <% end %>
   </tr>
 <% end %>

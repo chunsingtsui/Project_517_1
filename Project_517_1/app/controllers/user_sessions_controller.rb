@@ -13,8 +13,7 @@ class UserSessionsController < ApplicationController
       session[:user_id] = user.id
       redirect_to view_posts_path, :notice => "Welcome!"
     else
-      flash.now.alert = "Invalid login credentials"
-      render "new"
+      redirect_to log_in_path, notice: "Invalid login credentials"
     end
   end
 
