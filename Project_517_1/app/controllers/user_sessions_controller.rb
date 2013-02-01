@@ -11,17 +11,15 @@ class UserSessionsController < ApplicationController
     user = User.authenticate(params[:username], params[:password])
     if user
       session[:user_id] = user.id
-      redirect_to root_url, :notice => "Logged in!"
+      redirect_to view_posts_path, :notice => "Welcome!"
     else
       flash.now.alert = "Invalid login credentials"
       render "new"
     end
   end
 
-  # DELETE /user_sessions/1
-  # DELETE /user_sessions/1.json
   def destroy
     session[:user_id] = nil
-    redirect_to root_url, :notice => 'You have been successfully logged out.'
+    redirect_to root_url, :notice => "You have been successfully logged out."
   end
 end

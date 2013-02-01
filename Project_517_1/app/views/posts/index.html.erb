@@ -1,4 +1,6 @@
-<h1>PostIt Entries</h1>
+<h1>PostIt</h1>
+
+<p id="notice"><%= notice %></p>
 
 <table>
   <tr>
@@ -13,7 +15,7 @@
     <td><%= post.content %></td>
     <td><%= Category.find(post.category_id).name %></td>
     <td><%= User.find(post.user_id).username %></td>
-    <% if current_user != nil && current_user.username = User.find(post.user_id).username %>
+    <% if current_user && current_user.username == User.find(post.user_id).username %>
         <td><%= link_to 'Edit', edit_post_path(post) %></td>
         <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
     <% end %>
@@ -23,4 +25,4 @@
 
 <br />
 
-<%= link_to 'New Post', new_post_path %>
+

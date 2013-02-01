@@ -15,7 +15,9 @@ Project5171::Application.routes.draw do
   get 'register' => 'users#new', :as => 'register'
   get 'home' => 'posts#index', :as => 'home'
   get 'create_a_post' => 'posts#new', :as => 'create_a_post'
-
+  get 'edit_categories' => 'categories#index', :as => 'edit_categories'
+  get 'manage_users' => 'users#index', :as => 'manage_users'
+  get 'view_posts' => 'posts#index', :as => 'view_posts'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
