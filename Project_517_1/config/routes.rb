@@ -13,6 +13,8 @@ Project5171::Application.routes.draw do
   get 'log_out' => 'user_sessions#destroy', :as => 'log_out'
   get 'log_in' => 'user_sessions#new', :as => 'log_in'
   get 'register' => 'users#new', :as => 'register'
+  get 'home' => 'posts#index', :as => 'home'
+  get 'create_a_post' => 'posts#new', :as => 'create_a_post'
 
 
   # The priority is based upon order of creation:

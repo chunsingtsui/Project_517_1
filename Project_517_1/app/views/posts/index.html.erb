@@ -3,17 +3,20 @@
 <table>
   <tr>
     <th>Content</th>
-    <th></th>
-    <th></th>
+    <th>Category</th>
+    <th>User</th>
     <th></th>
   </tr>
 
 <% @posts.each do |post| %>
   <tr>
     <td><%= post.content %></td>
-    <td><%= link_to 'Show', post %></td>
-    <td><%= link_to 'Edit', edit_post_path(post) %></td>
-    <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= Category.find(post.category_id).name %></td>
+    <td><%= User.find(post.user_id).username %></td>
+    <% if current_user != nil && current_user.username = User.find(post.user_id).username %>
+        <td><%= link_to 'Edit', edit_post_path(post) %></td>
+        <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <% end %>
   </tr>
 <% end %>
 </table>
