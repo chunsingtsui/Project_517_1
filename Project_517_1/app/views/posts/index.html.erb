@@ -18,7 +18,9 @@
     <% if (current_user && current_user.username == User.find(post.user_id).username) || (current_user && current_user.admin) %>
         <td><%= link_to 'Edit', edit_post_path(post) %></td>
         <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <td><%= link_to 'Vote', vote_path(post) %></td>
+    <% end %>
+    <% if (current_user) %>
+        <td><%= link_to 'Vote', :controller => "posts", :action => "vote", :post_id => post %></td>
     <% end %>
   </tr>
 <% end %>

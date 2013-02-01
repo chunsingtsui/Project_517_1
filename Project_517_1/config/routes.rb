@@ -21,7 +21,8 @@ Project5171::Application.routes.draw do
   get 'edit_categories' => 'categories#index', :as => 'edit_categories'
   get 'manage_users' => 'users#index', :as => 'manage_users'
   get 'view_posts' => 'posts#index', :as => 'view_posts'
-  get 'vote' => 'votes#new', :as => 'vote'
+  get 'vote' => 'posts#vote', :as => 'vote'
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

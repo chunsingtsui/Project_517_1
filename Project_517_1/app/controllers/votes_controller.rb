@@ -40,15 +40,16 @@ class VotesController < ApplicationController
   # POST /votes
   # POST /votes.json
   def create
+
     @vote = Vote.new(params[:vote])
+    @vote.post_id = params[:post_id]
     @vote.user_id = current_user.id
-    @vote.post_id = params[post].id
+
     respond_to do |format|
       if @vote.save
-        format.html { redirect_to view_posts_path, notice: 'Vote was successfully created.' }
-        format.json { render json: @vote, status: :created, location: @vote }
+        redirect_to posts_path
       else
-        redirect_to view_posts_path, notice: "Test"
+        redirect_to posts_path
       end
     end
   end
