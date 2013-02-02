@@ -60,17 +60,14 @@ class PostsController < ApplicationController
     vote.user_id = current_user.id
     vote.post_id = params[:post_id]
 
-    votes = Vote.find_all_by_user_id(current_user.id)
-    votes.each do |v|
-      if v.post_id = params[:post_id]
-        redirect_to posts_path, notice: "You have already voted for this"
-        return
-      end
+    if vote.exists
+      vote.delete
+      redirect_to posts_path, notice: "You have removed your vote for this post"
+    else
+      vote.save
+      redirect_to posts_path, notice: "You have voted for this post"
     end
 
-
-    vote.save
-    redirect_to posts_path
   end
 
   # PUT /posts/1

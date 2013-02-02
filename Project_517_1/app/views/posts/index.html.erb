@@ -7,7 +7,7 @@
     <th>Content</th>
     <th>Category</th>
     <th>User</th>
-    <th></th>
+    <th># of Votes</th>
   </tr>
 
 <% @posts.each do |post| %>
@@ -15,13 +15,54 @@
     <td><%= post.content %></td>
     <td><%= Category.find(post.category_id).name %></td>
     <td><%= User.find(post.user_id).username %></td>
+
+    <!-- Displays message about votes based on if user voted and number of votes -->
+    <td>
+      <% vote = Vote.new %>
+      <% if current_user %>
+        <% vote.user_id = current_user.id %>
+      <% else %>
+        <% vote.user_id = -1 %>
+      <% end %>
+      <% vote.post_id = post.id %>
+      <% if vote.exists %>
+        You and
+          <%= Vote.find_all_by_post_id(post.id).count()-1 %>
+          other
+      <% else %>
+          <%= Vote.find_all_by_post_id(post.id).count() %>
+      <% end %>
+      <% if Vote.find_all_by_post_id(post.id).count() != 2 && vote.exists  %>
+          people have
+      <% end %>
+      <% if Vote.find_all_by_post_id(post.id).count() == 2 && vote.exists %>
+          person have
+      <% end %>
+      <% if Vote.find_all_by_post_id(post.id).count() != 1 && !vote.exists%>
+          people have
+      <% end %>
+      <% if Vote.find_all_by_post_id(post.id).count() == 1 && !vote.exists%>
+          person has
+      <% end %>
+       voted for this post.
+    </td>
+
+    <!-- Display Edit and Destroy if the post belongs to the current user, or if the user is an admin user -->
     <% if (current_user && current_user.username == User.find(post.user_id).username) || (current_user && current_user.admin) %>
         <td><%= link_to 'Edit', edit_post_path(post) %></td>
         <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
     <% end %>
-    <% if (current_user) %>
-        <td><%= link_to 'Vote', :controller => "posts", :action => "vote", :post_id => post %></td>
+
+    <!-- Display voting records if the post does not belong to the current user -->
+    <% if (current_user) && post.user_id != current_user.id %>
+        <% if vote.exists %>
+            <td><%= link_to 'Un-vote', :controller => "posts", :action => "vote", :post_id => post %></td>
+        <% else %>
+            <td><%= link_to 'Vote', :controller => "posts", :action => "vote", :post_id => post %></td>
+        <% end %>
     <% end %>
+
+
   </tr>
 <% end %>
 </table>
