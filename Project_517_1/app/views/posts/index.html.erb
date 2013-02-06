@@ -1,30 +1,44 @@
+
+
+<script>
+    $(document).ready(function(){
+        $("button").click(function(){
+            $("td#votes_data").toggle();
+            $("th#votes_header").toggle();
+        });
+    });
+</script>
+
 <h1>PostIt</h1>
-
-<p id="notice"><%= notice %></p>
-
 <table>
   <tr>
+    <th></th>
     <th>Content</th>
     <th>Category</th>
     <th>User</th>
-    <th># of Votes</th>
+    <th># of votes</th>
+    <th>Action</th>
+    <!--<th># of Votes</th>-->
   </tr>
+<% Post.all(:order => "updated_at DESC", :conditions => "post_id IS NULL").each do |post| %>
 
-<% @posts.each do |post| %>
   <tr>
-    <td><%= post.content %></td>
+    <td class="expandlink"><button style="font-size: 14pt;">+</button></td>
+    <td width="400px" id=<%=post.id%>><%= post.content %></td>
     <td><%= Category.find(post.category_id).name %></td>
     <td><%= User.find(post.user_id).username %></td>
+  </div>
+    <% vote = Vote.new %>
+    <% if current_user %>
+        <% vote.user_id = current_user.id %>
+    <% else %>
+        <% vote.user_id = -1 %>
+    <% end %>
+    <% vote.post_id = post.id %>
 
     <!-- Displays message about votes based on if user voted and number of votes -->
-    <td>
-      <% vote = Vote.new %>
-      <% if current_user %>
-        <% vote.user_id = current_user.id %>
-      <% else %>
-        <% vote.user_id = -1 %>
-      <% end %>
-      <% vote.post_id = post.id %>
+    <td width="340px">
+      <a>
       <% if vote.exists %>
         You and
           <%= Vote.find_all_by_post_id(post.id).count()-1 %>
@@ -45,28 +59,34 @@
           person has
       <% end %>
        voted for this post.
+          </a>
     </td>
 
     <!-- Display Edit and Destroy if the post belongs to the current user, or if the user is an admin user -->
     <% if (current_user && current_user.username == User.find(post.user_id).username) || (current_user && current_user.admin) %>
-        <td><%= link_to 'Edit', edit_post_path(post) %></td>
-        <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td style="text-align: center;"><%= link_to 'Edit', edit_post_path(post) %> |
+        <%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
     <% end %>
 
     <!-- Display voting records if the post does not belong to the current user -->
     <% if (current_user) && post.user_id != current_user.id %>
         <% if vote.exists %>
-            <td><%= link_to 'Un-vote', :controller => "posts", :action => "vote", :post_id => post %></td>
+            <td style="text-align: center;"><%= link_to 'Un-vote', :controller => "posts", :action => "vote", :post_id => post %></td>
         <% else %>
-            <td><%= link_to 'Vote', :controller => "posts", :action => "vote", :post_id => post %></td>
+            <td style="text-align: center;"><%= link_to 'Vote', :controller => "posts", :action => "vote", :post_id => post %></td>
         <% end %>
     <% end %>
-
-
   </tr>
-<% end %>
+
+  <% if Post.find_all_by_post_id(post.id).count() > 0 %>
+
+  <tr>
+    <%= render "posts/comment", :post => post %>
+  </tr>
+
+  <% end %>
+
+  <% end %>
+
 </table>
-
-<br />
-
 
