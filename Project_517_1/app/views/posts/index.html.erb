@@ -1,5 +1,55 @@
+<style>
+body{
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 900px;
+}
 
+div[depth = "2"]{
+    background: #f7f7f7;
+}
 
+.post {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border: 1px solid #999;
+    padding: 1em;
+}
+.post a {
+    color: #618CC7;
+}
+
+.content {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 15px;
+}
+
+.top_line{
+    font-size:10px;
+}
+
+.bottom_options{
+    font-size:10px;
+}
+
+.user{
+    color: #ff4500;
+}
+
+.level_2{
+    margin-left: 30px; /* +10 for each level*/
+    min-width: 490px;
+    max-width: 950px; /* -10 for each level*/
+}
+.level_3{
+    margin-left: 40px;
+    min-width: 480px;
+    max-width: 940px;
+}
+</style>
+
+<!--
 <script>
     $(document).ready(function(){
         $("button").click(function(){
@@ -8,85 +58,36 @@
         });
     });
 </script>
+-->
+<script>
+    // Apply css based on depth of a post
+    $(document).ready(function(){
+        $('div[depth]').each(function() {
+            // Odd level posts/comments get white background
+            if($(this).attr('depth')%2 != 0 ){
+                $(this).css('background', '#ffffff')
+            }
+            // Even level posts/comments get light grey background
+            else {
+                $(this).css('background', '#f7f7f7')
+            }
+        });
+    });
+</script>
 
-<h1>PostIt</h1>
-<table>
-  <tr>
-    <th></th>
-    <th>Content</th>
-    <th>Category</th>
-    <th>User</th>
-    <th># of votes</th>
-    <th>Action</th>
-    <!--<th># of Votes</th>-->
-  </tr>
-<% Post.all(:order => "updated_at DESC", :conditions => "post_id IS NULL").each do |post| %>
 
-  <tr>
-    <td class="expandlink"><button style="font-size: 14pt;">+</button></td>
-    <td width="400px" id=<%=post.id%>><%= post.content %></td>
-    <td><%= Category.find(post.category_id).name %></td>
-    <td><%= User.find(post.user_id).username %></td>
-  </div>
-    <% vote = Vote.new %>
-    <% if current_user %>
-        <% vote.user_id = current_user.id %>
-    <% else %>
-        <% vote.user_id = -1 %>
-    <% end %>
-    <% vote.post_id = post.id %>
 
-    <!-- Displays message about votes based on if user voted and number of votes -->
-    <td width="340px">
-      <a>
-      <% if vote.exists %>
-        You and
-          <%= Vote.find_all_by_post_id(post.id).count()-1 %>
-          other
-      <% else %>
-          <%= Vote.find_all_by_post_id(post.id).count() %>
-      <% end %>
-      <% if Vote.find_all_by_post_id(post.id).count() != 2 && vote.exists  %>
-          people have
-      <% end %>
-      <% if Vote.find_all_by_post_id(post.id).count() == 2 && vote.exists %>
-          person have
-      <% end %>
-      <% if Vote.find_all_by_post_id(post.id).count() != 1 && !vote.exists%>
-          people have
-      <% end %>
-      <% if Vote.find_all_by_post_id(post.id).count() == 1 && !vote.exists%>
-          person has
-      <% end %>
-       voted for this post.
-          </a>
-    </td>
 
-    <!-- Display Edit and Destroy if the post belongs to the current user, or if the user is an admin user -->
-    <% if (current_user && current_user.username == User.find(post.user_id).username) || (current_user && current_user.admin) %>
-        <td style="text-align: center;"><%= link_to 'Edit', edit_post_path(post) %> |
-        <%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-    <% end %>
+<!-- This div contains all posts -->
+<div class="post_container">
+  <h1>PostIt</h1>
 
-    <!-- Display voting records if the post does not belong to the current user -->
-    <% if (current_user) && post.user_id != current_user.id %>
-        <% if vote.exists %>
-            <td style="text-align: center;"><%= link_to 'Un-vote', :controller => "posts", :action => "vote", :post_id => post %></td>
-        <% else %>
-            <td style="text-align: center;"><%= link_to 'Vote', :controller => "posts", :action => "vote", :post_id => post %></td>
-        <% end %>
-    <% end %>
-  </tr>
+  <% Post.all(:order => "updated_at DESC", :conditions => "post_id IS NULL").each do |post| %>
 
-  <% if Post.find_all_by_post_id(post.id).count() > 0 %>
-
-  <tr>
-    <%= render "posts/comment", :post => post %>
-  </tr>
-
+  <!-- render top level posts -->
+  <%= render post, :post => post %>  <!-- depth variable is used to assign a custom attribute to apply css -->
   <% end %>
 
-  <% end %>
+</div>
 
-</table>
-
+</div>

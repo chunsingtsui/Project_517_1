@@ -13,4 +13,14 @@ class Post < ActiveRecord::Base
     end
   end
 
+  def getAllChildrenPosts
+    Post.find_all_by_post_id(self.id, :order => "updated_at DESC")
+  end
+
+  def hasChildrenPost
+    if Post.find_all_by_post_id(self.id).count() > 0
+      true
+    end
+  end
+
 end
