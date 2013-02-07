@@ -1,15 +1,11 @@
 Project5171::Application.routes.draw do
   resources :votes
 
-
   resources :user_sessions
-
 
   resources :categories
 
-
   resources :posts
-
 
   resources :users
 

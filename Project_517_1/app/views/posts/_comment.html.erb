@@ -70,6 +70,12 @@
         <td style="text-align: center;"><%= link_to 'Edit', edit_post_path(post) %> |
           <%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
     <% end %>
+
+    <!-- The hide comment button -->
+    <%  if post.hasChildrenPost  %>
+        |
+        <a href="" class="hide">Hide comments</a>
+    <%  end %>
   </div>
 
   <!-- Comment partials if there are comments to a post -->
