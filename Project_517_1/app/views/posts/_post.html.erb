@@ -74,13 +74,12 @@
 
     <%  if post.hasChildrenPost  %>
         |
-        <a href="" class="hide">Hide comments</a>
+        <a href="" class="show_hide hiding">Show comments</a>
     <%  end %>
   </div>
 
   <!-- Comment partials if there are comments to a post -->
   <%  if post.hasChildrenPost  %>
-
       <% post.getAllChildrenPosts.each do |post| %>
           <%= render "comment", :post => post %>
       <%  end %>

@@ -49,20 +49,10 @@ div[depth = "2"]{
 }
 </style>
 
-<!--
-<script>
-    $(document).ready(function(){
-        $("button").click(function(){
-            $("td#votes_data").toggle();
-            $("th#votes_header").toggle();
-        });
-    });
-</script>
--->
 
 <script>
-    // Apply css based on depth of a post
     $(document).ready(function(){
+        /* Apply css based on depth of a post */
         $('div[depth]').each(function() {
             // Odd level posts/comments get white background
             if($(this).attr('depth')%2 != 0 ){
@@ -73,6 +63,33 @@ div[depth = "2"]{
                 $(this).css('background', '#f7f7f7')
             }
         });
+
+        // This initial toggle hides comments
+        $(".post[depth='2']").toggle();
+
+
+        // This assigns the onclick functions for showing/hiding comments
+        $(".post[depth='1']").each(function(){
+            var parent = $(this);
+            $(this).find('.show_hide').click(function(){
+                if($(this).hasClass('hiding')){
+                    $(this).text('Hide comments');
+                    parent.find("[depth='2']").show();
+                    $(this).removeClass('hiding');
+                    $(this).addClass('showing');
+
+                }
+                else{
+                    $(this).text('Show comments');
+                    parent.find("[depth='2']").hide();
+                    $(this).removeClass('showing');
+                    $(this).addClass('hiding');
+                }
+                return false; // Return false so page won't refresh (since this is an anchor tag)
+            });
+
+        });
+
     });
 </script>
 
