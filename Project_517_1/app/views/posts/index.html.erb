@@ -1,14 +1,99 @@
+<style>
+body{
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 900px;
+}
+
+div[depth = "2"]{
+    background: #f7f7f7;
+}
+
+.post {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border: 1px solid #999;
+    padding: 1em;
+}
+.post a {
+    color: #618CC7;
+}
+
+.content {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 15px;
+}
+
+.top_line{
+    font-size:10px;
+}
+
+.bottom_options{
+    font-size:10px;
+}
+
+.user{
+    color: #ff4500;
+}
+
+.level_2{
+    margin-left: 30px; /* +10 for each level*/
+    min-width: 490px;
+    max-width: 950px; /* -10 for each level*/
+}
+.level_3{
+    margin-left: 40px;
+    min-width: 480px;
+    max-width: 940px;
+}
+</style>
 
 
 <script>
     $(document).ready(function(){
-        $("button").click(function(){
-            $("td#votes_data").toggle();
-            $("th#votes_header").toggle();
+        /* Apply css based on depth of a post */
+        $('div[depth]').each(function() {
+            // Odd level posts/comments get white background
+            if($(this).attr('depth')%2 != 0 ){
+                $(this).css('background', '#ffffff')
+            }
+            // Even level posts/comments get light grey background
+            else {
+                $(this).css('background', '#f7f7f7')
+            }
         });
+
+        // This initial toggle hides comments
+        $(".post[depth='2']").toggle();
+
+
+        // This assigns the onclick functions for showing/hiding comments
+        $(".post[depth='1']").each(function(){
+            var parent = $(this);
+            $(this).find('.show_hide').click(function(){
+                if($(this).hasClass('hiding')){
+                    $(this).text('Hide comments');
+                    parent.find("[depth='2']").show();
+                    $(this).removeClass('hiding');
+                    $(this).addClass('showing');
+
+                }
+                else{
+                    $(this).text('Show comments');
+                    parent.find("[depth='2']").hide();
+                    $(this).removeClass('showing');
+                    $(this).addClass('hiding');
+                }
+                return false; // Return false so page won't refresh (since this is an anchor tag)
+            });
+
+        });
+
     });
 </script>
 
+<<<<<<< HEAD
 <h1>PostIt</h1>
 <table>
   <tr>
@@ -87,10 +172,21 @@
   <tr>
     <%= render "posts/comment", :post => post %>
   </tr>
+=======
+>>>>>>> 088b14136e1951843f1ddecbec1e99806502eaad
 
+
+
+<!-- This div contains all posts -->
+<div class="post_container">
+  <h1>PostIt</h1>
+
+  <% Post.all(:order => "updated_at DESC", :conditions => "post_id IS NULL").each do |post| %>
+
+  <!-- render top level posts -->
+  <%= render post, :post => post %>  <!-- depth variable is used to assign a custom attribute to apply css -->
   <% end %>
 
-  <% end %>
+</div>
 
-</table>
-
+</div>

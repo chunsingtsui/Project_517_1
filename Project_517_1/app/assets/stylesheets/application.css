@@ -11,6 +11,7 @@
  *= require_self
  *= require_tree .
  */
+/*
 table tr th {padding: 24pt ;background:#000000; color:#ffffff; border:#111111 solid 1px; font-size: 14pt;}
 table tr td {border:1px #ccc solid; padding:5px;}
 table tr td.right {background: #eeeeee;}
@@ -25,4 +26,7 @@ div.hidden { display: none; }
 .linkdiv:hover a {
     color: red;
 }
+
+*/
+
 

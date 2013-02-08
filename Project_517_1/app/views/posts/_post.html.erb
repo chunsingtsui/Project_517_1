@@ -6,7 +6,9 @@
     <span class="user">
        <%= User.find(post.user_id).username %>
     </span>
+    to <%= Category.find(post.category_id).name %>
   </div>
+
 
   <!-- Content of post -->
   <div class="content">
@@ -57,12 +59,12 @@
           person has
       <% end %>
       voted for this post</a>
-
-
     <!-- Reply link -->
     <% if current_user %>
-        | <a href="" class="reply-link">Reply</a>
+        |
+        <a href="" class="reply-link">Reply</a>
     <% end %>
+
     <!-- Display Edit/Destroy if appropriate-->
     <% if (current_user && current_user.username == User.find(post.user_id).username) || (current_user && current_user.admin) %>
         |
@@ -70,6 +72,10 @@
           <%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
     <% end %>
 
+    <%  if post.hasChildrenPost  %>
+        |
+        <a href="" class="show_hide hiding">Show comments</a>
+    <%  end %>
   </div>
 
   <!-- Comment partials if there are comments to a post -->
