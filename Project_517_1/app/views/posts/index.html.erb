@@ -76,6 +76,10 @@
             <td style="text-align: center;"><%= link_to 'Vote', :controller => "posts", :action => "vote", :post_id => post %></td>
         <% end %>
     <% end %>
+
+    <td style="text-align: center;"><%= link_to 'Comment', :controller => "posts", :action => "new", :post_id => post.post_id %></td>
+
+
   </tr>
 
   <% if Post.find_all_by_post_id(post.id).count() > 0 %>
