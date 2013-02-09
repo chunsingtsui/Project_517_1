@@ -1,10 +1,10 @@
 
-<!-- The div that wraps the entire post -->
 <div class="post" id="<%=post.id%>" depth=<%=post.depth%> >
 
   <!-- div that contains the top line -->
   <div class="top_line">
     Submitted by <span class="user"> <%= post.creatorName %> </span>
+    | <%= localize(post.updated_at, :format => :long) %>
   </div>
 
   <!-- Text Content of post -->

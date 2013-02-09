@@ -1,5 +1,5 @@
 class Post < ActiveRecord::Base
-  attr_accessible :content, :category_id, :user_id, :post_id
+  attr_accessible :content, :category_id, :user_id, :post_id, :updated_at
 
   validates_presence_of :content
   validates_presence_of :category_id
