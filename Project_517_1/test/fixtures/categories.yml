@@ -1,7 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  name: MyString
+general:
+  name: General
 
-two:
-  name: MyString
+food:
+  name: Food
+
+technology:
+  name: Technology
+
+technology:
+  name: Technology
