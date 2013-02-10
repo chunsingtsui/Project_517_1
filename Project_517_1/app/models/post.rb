@@ -36,6 +36,7 @@ class Post < ActiveRecord::Base
     else
       return Post.find(self.post_id).getParentPostID
     end
+  end
 
   def creatorName
     User.find(self.user_id).username
