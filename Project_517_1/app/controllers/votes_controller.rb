@@ -44,7 +44,6 @@ class VotesController < ApplicationController
     @vote = Vote.new(params[:vote])
     @vote.post_id = params[:post_id]
     @vote.user_id = current_user.id
-
     respond_to do |format|
       if @vote.save
         redirect_to posts_path

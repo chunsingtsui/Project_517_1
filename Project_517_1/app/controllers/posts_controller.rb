@@ -25,6 +25,15 @@ class PostsController < ApplicationController
   # GET /posts/new.json
   def new
     @post = Post.new
+    if params[:post_id]
+      @post.post_id = params[:post_id]
+      @replyPost = Post.find(params[:post_id])
+      @replyPost.update_attribute :updated_at, Time.new.inspect
+      @replyPost.save
+      @parentPost = Post.find(Post.find(params[:post_id]).getParentPostID)
+      @parentPost.update_attribute :updated_at, Time.new.inspect
+      @parentPost.save
+    end
 
     respond_to do |format|
       format.html # new.html.erb
@@ -42,6 +51,9 @@ class PostsController < ApplicationController
   def create
     @post = Post.new(params[:post])
     @post.user_id = current_user.id
+    if params[:post_id]
+      @post.post_id = params[:post_id]
+    end
 
     respond_to do |format|
       if @post.save
@@ -60,9 +72,13 @@ class PostsController < ApplicationController
     vote.user_id = current_user.id
     vote.post_id = params[:post_id]
 
+    @parentPost = Post.find(Post.find(params[:post_id]).getParentPostID)
+    @parentPost.update_attribute :updated_at, Time.new.inspect
+    @parentPost.save
+
     if vote.exists
       vote.delete
-      redirect_to posts_path, notice: "You have removed your vote for this post"
+      redirect_to posts_path, notice: "You have removed your vote"
     else
       vote.save
       redirect_to posts_path, notice: "You have voted for this post"
@@ -96,5 +112,9 @@ class PostsController < ApplicationController
       format.html { redirect_to posts_url }
       format.json { head :no_content }
     end
+  end
+
+  def showVotes
+
   end
 end

@@ -1,0 +1,10 @@
+<h1>Users who have voted for post</h1>
+
+<table>
+<% Vote.find_all_by_post_id(params[:post_id]).each do |vote| %>
+    <tr><td>
+      <% user = User.find(vote.user_id) %>
+      <%= user.username %>
+    </td></tr>
+<% end %>
+</table>

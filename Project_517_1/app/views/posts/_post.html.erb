@@ -37,8 +37,7 @@
         |
     <% end %>
     <!-- Display Votes -->
-
-    <a href="">
+       <a href="/show_votes?post_id=<%= post.id %>">
       <% if vote.exists %>
           You and
           <%= Vote.find_all_by_post_id(post.id).count()-1 %>
@@ -62,7 +61,7 @@
     <!-- Reply link -->
     <% if current_user %>
         |
-        <a href="" class="reply-link">Reply</a>
+        <a href="/posts/new?post_id=<%= post.id %>" class="reply-link">Reply</a>
     <% end %>
 
     <!-- Display Edit/Destroy if appropriate-->

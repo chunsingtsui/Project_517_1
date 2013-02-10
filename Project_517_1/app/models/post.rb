@@ -23,4 +23,16 @@ class Post < ActiveRecord::Base
     end
   end
 
+  def listVoters
+    Vote.find_all_by_post_id(self.id)
+  end
+
+  def getParentPostID
+    if self.depth == 1
+      return self.id
+    else
+      return Post.find(self.post_id).getParentPostID
+    end
+  end
+
 end

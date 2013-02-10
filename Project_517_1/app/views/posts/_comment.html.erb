@@ -35,8 +35,8 @@
         |
     <% end %>
     <!-- Display Votes -->
+    <a href="/show_votes?post_id=<%= post.id %>">
 
-    <a href="">
       <% if vote.exists %>
           You and
           <%= Vote.find_all_by_post_id(post.id).count()-1 %>
@@ -61,7 +61,7 @@
 
     <!-- Reply link -->
     <% if current_user %>
-        | <a href="" class="reply-link">Reply</a>
+        | <a href="/posts/new?post_id=<%= post.id %>" class="reply-link">Reply</a>
     <% end %>
     <!-- Display Edit/Destroy if appropriate-->
     <% if (current_user && current_user.username == User.find(post.user_id).username) || (current_user && current_user.admin) %>
