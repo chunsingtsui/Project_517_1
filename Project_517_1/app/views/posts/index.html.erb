@@ -1,3 +1,4 @@
+
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
 <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
 <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
@@ -54,7 +55,6 @@ div[depth = "2"]{
 }
 </style>
 
-
 <script>
     $(document).ready(function(){
         /* Apply css based on depth of a post */
@@ -94,11 +94,12 @@ div[depth = "2"]{
             });
 
         });
-
     });
 
 
 </script>
+<h1>PostIt</h1>
+
 
 <br/>
 <%= form_tag("/posts", :method => "get") do %>
@@ -107,7 +108,6 @@ div[depth = "2"]{
     <%= submit_tag("Search") %>
 <% end %>
 
-<!-- This div contains all posts -->
 <div class="post_container">
   <h1>PostIt</h1>
   <% if params[:q] %>
@@ -125,4 +125,3 @@ div[depth = "2"]{
 
 </div>
 
-</div>

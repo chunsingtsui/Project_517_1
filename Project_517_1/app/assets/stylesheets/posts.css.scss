@@ -2,3 +2,45 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+div[depth = "2"]{
+  background: #f7f7f7;
+}
+
+.post {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border: 1px solid #999;
+  padding: 1em;
+}
+.post a {
+  color: #618CC7;
+}
+
+.content {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+
+.top_line{
+  font-size:10px;
+}
+
+.bottom_line{
+  font-size:10px;
+}
+
+.user{
+  color: #ff4500;
+}
+
+.level_2{
+  margin-left: 30px; /* +10 for each level*/
+  min-width: 490px;
+  max-width: 950px; /* -10 for each level*/
+}
+.level_3{
+  margin-left: 40px;
+  min-width: 480px;
+  max-width: 940px;
+}

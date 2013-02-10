@@ -1,22 +1,20 @@
-<!-- The div that wraps the entire post -->
 
+<!-- The div that wraps the entire post -->
 <div class="post" id="<%=post.id%>" depth=<%=post.depth%> >
+
+  <!-- div that contains the top line -->
   <div class="top_line">
-    Submitted by
-    <span class="user">
-       <%= User.find(post.user_id).username %>
-    </span>
-    to <%= Category.find(post.category_id).name %>
+    Submitted by <span class="user"> <%= post.creatorName %> </span> to <%=post.category%>
+    | <%= localize(post.updated_at, :format => :long) %>
   </div>
 
-
-  <!-- Content of post -->
+  <!-- Text Content of post -->
   <div class="content">
     <%= post.content %>
   </div>
 
   <!-- Display the various options -->
-  <div class="bottom_options">
+  <div class="bottom_line">
 
     <!-- Check vote conditions -->
     <% vote = Vote.new %>
@@ -36,44 +34,33 @@
         <% end %>
         |
     <% end %>
+
     <!-- Display Votes -->
-       <a href="/show_votes?post_id=<%= post.id %>">
-      <% if vote.exists %>
-          You and
-          <%= Vote.find_all_by_post_id(post.id).count()-1 %>
-          other
-      <% else %>
-          <%= Vote.find_all_by_post_id(post.id).count() %>
-      <% end %>
-      <% if Vote.find_all_by_post_id(post.id).count() != 2 && vote.exists  %>
-          people have
-      <% end %>
-      <% if Vote.find_all_by_post_id(post.id).count() == 2 && vote.exists %>
-          person have
-      <% end %>
-      <% if Vote.find_all_by_post_id(post.id).count() != 1 && !vote.exists%>
-          people have
-      <% end %>
-      <% if Vote.find_all_by_post_id(post.id).count() == 1 && !vote.exists%>
-          person has
-      <% end %>
-      voted for this post</a>
+    <% voteNumber = post.numberOfVotes %>
+    <a href="/show_votes?post_id=<%= post.id %>">
+      <% if vote.exists %>  You and <%= voteNumber-1 %> other <% else %> <%= voteNumber %> <% end %>
+
+      <% if voteNumber != 2 && vote.exists  %> people have <% end %>
+      <% if voteNumber == 2 && vote.exists %>  person have <% end %>
+      <% if voteNumber != 1 && !vote.exists%>  people have <% end %>
+      <% if voteNumber == 1 && !vote.exists%>  person has  <% end %>
+
+      voted for this post
+    </a>
+
     <!-- Reply link -->
     <% if current_user %>
-        |
-        <a href="/posts/new?post_id=<%= post.id %>" class="reply-link">Reply</a>
+        | <a href="/posts/new?post_id=<%= post.id %>" class="reply-link">Reply</a>
     <% end %>
 
     <!-- Display Edit/Destroy if appropriate-->
-    <% if (current_user && current_user.username == User.find(post.user_id).username) || (current_user && current_user.admin) %>
-        |
-        <td style="text-align: center;"><%= link_to 'Edit', edit_post_path(post) %> |
-          <%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <% if (current_user && current_user.username) == post.creatorName || (current_user && current_user.admin) %>
+        | <%= link_to 'Edit', edit_post_path(post) %>
+        | <%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %>
     <% end %>
 
     <%  if post.hasChildrenPost  %>
-        |
-        <a href="" class="show_hide hiding">Show comments</a>
+        | <a href="" class="show_hide hiding">Show comments</a>
     <%  end %>
   </div>
 
