@@ -8,6 +8,8 @@ class UserSessionsController < ApplicationController
   # POST /user_sessions
   # POST /user_sessions.json
   def create
+
+    # Verify credentials and log user in if credentials are correct
     user = User.authenticate(params[:username], params[:password])
     if user
       session[:user_id] = user.id
@@ -17,6 +19,7 @@ class UserSessionsController < ApplicationController
     end
   end
 
+  # Log the user out by destroying the session
   def destroy
     session[:user_id] = nil
     redirect_to root_url, :notice => "You have been successfully logged out."

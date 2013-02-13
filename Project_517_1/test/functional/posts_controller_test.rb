@@ -2,7 +2,7 @@ require 'test_helper'
 
 class PostsControllerTest < ActionController::TestCase
   setup do
-    @post = posts(:one)
+    @post = posts(:post_with_depth_one)
   end
 
   test "should get index" do
@@ -11,17 +11,13 @@ class PostsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:posts)
   end
 
-  test "should get new" do
-    get :new
-    assert_response :success
-  end
-
   test "should create post" do
+    session[:user_id] = User.authenticate("admin","admin").id
     assert_difference('Post.count') do
-      post :create, post: { content: @post.content }
+      post :create, post: { content: "test post", user_id: 2, category_id: 1 }
     end
 
-    assert_redirected_to post_path(assigns(:post))
+    assert_redirected_to ("/posts/7")
   end
 
   test "should show post" do

@@ -24,20 +24,32 @@ class PostsController < ApplicationController
   # GET /posts/new
   # GET /posts/new.json
   def new
+
+    # redirect to the register page if user tries to create a post when not logged in
+    if !current_user
+      redirect_to "/register"
+    else
+
     @post = Post.new
     if params[:post_id]
       @post.post_id = params[:post_id]
+
+      # The post being created as a reply/comment
       @replyPost = Post.find(params[:post_id])
       @replyPost.update_attribute :updated_at, Time.new.inspect
       @replyPost.save
+
+      # Update the date updated of the parent post to sort the page correctly
       @parentPost = Post.find(Post.find(params[:post_id]).getParentPostID)
       @parentPost.update_attribute :updated_at, Time.new.inspect
       @parentPost.save
     end
 
+
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @post }
+    end
     end
   end
 
@@ -51,6 +63,8 @@ class PostsController < ApplicationController
   def create
     @post = Post.new(params[:post])
     @post.user_id = current_user.id
+
+    # If we are passing post_id as a parameter, this is a comment, not a parent post
     if params[:post_id]
       @post.post_id = params[:post_id]
     end
@@ -72,10 +86,12 @@ class PostsController < ApplicationController
     vote.user_id = current_user.id
     vote.post_id = params[:post_id]
 
+    # Update the updated_at for the parent post to sort page correctly
     @parentPost = Post.find(Post.find(params[:post_id]).getParentPostID)
     @parentPost.update_attribute :updated_at, Time.new.inspect
     @parentPost.save
 
+    # if the vote already exists, then delete it, otherwise create it
     if vote.exists
       vote.delete
       redirect_to posts_path, notice: "You have removed your vote"
@@ -112,9 +128,5 @@ class PostsController < ApplicationController
       format.html { redirect_to posts_url }
       format.json { head :no_content }
     end
-  end
-
-  def showVotes
-
   end
 end

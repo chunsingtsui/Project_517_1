@@ -2,7 +2,7 @@ require 'test_helper'
 
 class VotesControllerTest < ActionController::TestCase
   setup do
-    @vote = votes(:one)
+    @vote = votes(:admin_vote_for_post_by_non_admin)
   end
 
   test "should get index" do
@@ -16,13 +16,7 @@ class VotesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should create vote" do
-    assert_difference('Vote.count') do
-      post :create, vote: {  }
-    end
 
-    assert_redirected_to vote_path(assigns(:vote))
-  end
 
   test "should show vote" do
     get :show, id: @vote

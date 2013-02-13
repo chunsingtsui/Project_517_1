@@ -1,7 +1,7 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+food_category:
+  id: 1
+  name: "Food"
 
-one:
-  name: MyString
-
-two:
-  name: MyString
+music_category:
+  id: 2
+  name: "Music"

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class CategoriesControllerTest < ActionController::TestCase
   setup do
-    @category = categories(:one)
+    @category = categories(:food_category)
   end
 
   test "should get index" do
@@ -18,10 +18,10 @@ class CategoriesControllerTest < ActionController::TestCase
 
   test "should create category" do
     assert_difference('Category.count') do
-      post :create, category: { name: @category.name }
+      post :create, category: { name: "Computers" }
     end
 
-    assert_redirected_to category_path(assigns(:category))
+    assert_redirected_to "/edit_categories"
   end
 
   test "should show category" do
@@ -35,7 +35,7 @@ class CategoriesControllerTest < ActionController::TestCase
   end
 
   test "should update category" do
-    put :update, id: @category, category: { name: @category.name }
+    put :update, id: @category, category: { name: "Cars" }
     assert_redirected_to category_path(assigns(:category))
   end
 
@@ -44,6 +44,6 @@ class CategoriesControllerTest < ActionController::TestCase
       delete :destroy, id: @category
     end
 
-    assert_redirected_to categories_path
+    assert_redirected_to "/edit_categories"
   end
 end
