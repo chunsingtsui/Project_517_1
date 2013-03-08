@@ -18,6 +18,7 @@ Project5171::Application.routes.draw do
   get 'manage_users' => 'users#index', :as => 'manage_users'
   get 'view_posts' => 'posts#index', :as => 'view_posts'
   get 'vote' => 'posts#vote', :as => 'vote'
+  get 'show_votes' => 'posts#showVotes', :as => 'show_votes'
 
 
   # The priority is based upon order of creation:

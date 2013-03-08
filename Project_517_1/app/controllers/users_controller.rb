@@ -75,6 +75,18 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @user.destroy
 
+    # destroy all posts and votes by this user
+    dPosts = Post.find_by_user_id(params[:id])
+    if(dPosts != nil)
+      dPosts.destroy
+    end
+
+    # destroy all posts and votes by this user
+    dVote = Vote.find_by_user_id(params[:id])
+    if(dVote != nil)
+      dVote.destroy
+    end
+
     respond_to do |format|
       format.html { redirect_to users_url }
       format.json { head :no_content }
