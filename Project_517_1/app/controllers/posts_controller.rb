@@ -69,9 +69,15 @@ class PostsController < ApplicationController
       @post.post_id = params[:post_id]
     end
 
+    if(@post.post_id)
+      notice_text = 'Comment was successfully created.'
+    else
+      notice_text =  'Post was successfully created.'
+    end
+
     respond_to do |format|
       if @post.save
-        format.html { redirect_to @post, notice: 'Post was successfully created.' }
+        format.html { redirect_to @post, notice: notice_text }
         format.json { render json: @post, status: :created, location: @post }
       else
         format.html { render action: "new" }
@@ -107,25 +113,32 @@ class PostsController < ApplicationController
   def update
     @post = Post.find(params[:id])
 
+    # determine if its a comment or post by checking if parent post id exists
+    if(@post.post_id)
+      notice_text = 'Comment was successfully updated.'
+    else
+      notice_text =  'Post was successfully updated.'
+    end
+
     respond_to do |format|
       if @post.update_attributes(params[:post])
-        format.html { redirect_to @post, notice: 'Post was successfully updated.' }
-        format.json { head :no_content }
+        format.html { redirect_to @post, notice: notice_text }
+      format.json { head :no_content }
       else
-        format.html { render action: "edit" }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
-      end
+      format.html { render action: "edit" }
+      format.json { render json: @post.errors, status: :unprocessable_entity }
     end
   end
+end
 
-  # DELETE /posts/1
-  # DELETE /posts/1.json
-  def destroy
-    @post = Post.find(params[:id])
-    @post.destroy
+# DELETE /posts/1
+# DELETE /posts/1.json
+def destroy
+  @post = Post.find(params[:id])
+  @post.destroy
 
-    respond_to do |format|
-      format.html { redirect_to posts_url }
+  respond_to do |format|
+    format.html { redirect_to posts_url }
       format.json { head :no_content }
     end
   end
